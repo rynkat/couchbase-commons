@@ -7,7 +7,7 @@
 
 ```
 dependencies {
-    implementation "pl.allegro.tech.couchbase-commons:couchbase:1.0"
+    implementation "pl.allegro.tech.couchbase-commons:couchbase:1.1.1"
 }
 ```
 
