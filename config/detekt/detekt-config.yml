@@ -58,7 +58,10 @@ style:
   ForbiddenComment:
     active: false # we want to be able to write comments
   MagicNumber:
+    excludes: ['**/test/*', '**/*Test.kt', '**/*Spec.kt', '**/*IT.kt']
     ignoreAnnotation: true
+    ignorePropertyDeclaration: true
+    ignoreLocalVariableDeclaration: true
   FunctionOnlyReturningConstant:
     active: true
   PreferToOverPairSyntax:

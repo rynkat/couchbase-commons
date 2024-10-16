@@ -1,4 +1,5 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
@@ -7,17 +8,17 @@ buildscript {
     }
 
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21")
-        classpath("org.jetbrains.kotlin:kotlin-allopen:1.6.21")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:2.0.21")
     }
 }
 
 plugins {
     `java-library`
-    id("io.gitlab.arturbosch.detekt") version "1.17.1"
-    id("pl.allegro.tech.build.axion-release") version "1.14.0"
+    id("io.gitlab.arturbosch.detekt") version "1.23.7"
+    id("pl.allegro.tech.build.axion-release") version "1.18.13"
     `maven-publish`
-    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+    id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
     `signing`
 }
 
@@ -48,9 +49,9 @@ subprojects {
     }
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = "17"
-            freeCompilerArgs = freeCompilerArgs + "-Xinline-classes"
+        compilerOptions {
+            jvmTarget.set(JvmTarget.fromTarget(JavaLanguageVersion.of(17).toString()))
+            freeCompilerArgs.add("-Xinline-classes")
         }
     }
 
@@ -62,8 +63,13 @@ subprojects {
     }
 
     detekt {
-        input = files("src/main/kotlin", "src/test/kotlin", "src/integration/kotlin")
-        config = files("$rootDir/config/detekt/default-detekt-config.yml", "$rootDir/config/detekt/detekt-config.yml")
+        source.setFrom("src/main/kotlin", "src/test/kotlin", "src/integration/kotlin")
+        config.setFrom(
+            files(
+                "$rootDir/config/detekt/default-detekt-config.yml",
+                "$rootDir/config/detekt/detekt-config.yml"
+            )
+        )
     }
 
     publishing {

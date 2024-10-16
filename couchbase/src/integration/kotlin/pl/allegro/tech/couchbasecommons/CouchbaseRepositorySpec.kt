@@ -38,7 +38,7 @@ class CouchbaseRepositorySpec : StringSpec() {
     private val prefix = "prefix"
     private val dictionaryTtl = Duration.ofSeconds(100)
 
-    override fun beforeSpec(spec: Spec) {
+    override suspend fun beforeSpec(spec: Spec) {
         val bucketName = "mybucket"
         val bucketDefinition = BucketDefinition(bucketName)
         val container = CouchbaseContainer("couchbase/server:6.6.0")
